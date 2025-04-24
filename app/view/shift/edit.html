@@ -1,0 +1,84 @@
+{% include "base.html"%}
+{% block main %}
+<meta charset="utf-8">
+<div class="container">
+    <div>
+        <h3>Eine Schicht bearbeiten</h3>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('shift_delete', sid = shift.id) }}">
+                <button class="btn btn-danger float-right" type="submit" {% if permissions.delete_shift == False %}disabled{%endif%}><i class="bi bi-trash"></i> Löschen
+                </button>
+            </form>
+            <form method="POST">
+                <label>Status</label>
+                <br>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="online" value="online"
+                           {{"checked='checked'" if shift.status.online.selected == True else "" }}>
+                    <label class="form-check-label" for="online">Online</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="vor_ort" value="vor_ort"
+                           {{"checked='checked'" if shift.status.vor_ort.selected == True else "" }}>
+                    <label class="form-check-label" for="vor_ort">Vor Ort</label>
+                </div>
+                <hr>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend input-group-lg">
+                        <label class="input-group-text" for="shift-type">Typ</label>
+                        <select class="custom-select" id="shift-type" name="stype">
+                            <option {{
+                            "selected='selected'" if shift.stype.usc_dienst.selected == True else "" }} value="usc_dienst">USC Dienst</option>
+                            <option {{
+                            "selected='selected'" if shift.stype.wlan_beratung.selected == True else "" }} value="wlan_beratung">Wlan Beratung</option>
+                            <option {{
+                            "selected='selected'" if shift.stype.drucker_dienst.selected == True else "" }} value="drucker_dienst">Drucker Dienst</option>
+                            <option {{
+                            "selected='selected'" if shift.stype.pools_dienst.selected == True else "" }} value="pools_dienst">Pools Dienst</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="workers">Mitarbeiter</label>
+                        <select class="selectpicker" id="workers" multiple data-live-search="true" name="workers">
+                            {% for worker in workers %}
+                            <option {{
+                            "selected='selected'" if worker.selected == True else "" }} value="{{ worker.id }}"
+                            >{{worker.email}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="start">Beginn</label>
+                        <input type="datetime-local" placeholder="Select DateTime" id="start" name="start"
+                               value="{{ shift.start_iso }}" required>
+                    </div>
+                </div>
+                <hr>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="end">Ende</label>
+                        <input type="datetime-local" placeholder="Select DateTime" id="end" name="end"
+                               value="{{ shift.end_iso }}" required>
+                    </div>
+                </div>
+                <hr>
+
+                <button type="submit" class="btn btn-success" {% if permissions.update_shift== False %}disabled{%endif%}>
+                    <i class="bi bi-pencil"></i>Speichern
+                </button>
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% endblock %}

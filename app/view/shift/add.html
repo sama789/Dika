@@ -1,0 +1,67 @@
+{% include "base.html"%} {% block main %}
+<meta charset="utf-8">
+<div class="container">
+    <div>
+        <h3>Eine Schicht hinzufügen</h3>
+        <div class="card-body">
+            <form method="POST">
+                <label>Status</label>
+                <br/>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="online" value="online" checked />
+                    <label class="form-check-label" for="online">Online</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="vor_ort" value="vor_ort"/>
+                    <label class="form-check-label" for="vor_ort">Vor Ort</label>
+                </div>
+                <hr/>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend input-group-lg">
+                        <label class="input-group-text" for="shift-type">Typ</label>
+                        <select class="custom-select" id="shift-type" name="stype">
+                            <option value="usc_dienst">USC Dienst</option>
+                            <option value="wlan_beratung">Wlan Beratung</option>
+                            <option value="drucker_dienst">Drucker Dienst</option>
+                            <option value="pools_dienst">Pools Dienst</option>
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="workers">Mitarbeiter</label>
+                        <select
+                                class="selectpicker"
+                                id="workers"
+                                multiple
+                                data-live-search="true"
+                                name="workers"
+                        >
+                            {% for worker in workers %}
+                            <option value="{{worker.id}}">{{worker.email}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <hr/>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="start">Beginn</label>
+                        <input type="datetime-local" placeholder="Select DateTime" id="start" name="start" required/>
+                    </div>
+                </div>
+                <hr/>
+                <div class="input-group input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="end">Ende</label>
+                        <input type="datetime-local" placeholder="Select DateTime" id="end" name="end" required/>
+                    </div>
+                </div>
+                <hr/>
+                <button type="submit" class="btn btn-primary" {% if permissions.create_shift == False %}disabled{%endif%}><i class="bi bi-plus"></i>Beitragen</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

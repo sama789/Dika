@@ -1,0 +1,40 @@
+{% include "base.html" %}
+{% block main %}
+<meta charset="utf-8">
+<div class="container">
+    <h3>Bearbeiten {{worker.name}}</h3>
+    <hr>
+    <div class="card-body">
+        <form method="POST">
+            <div class="input-group input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="username"><i class="bi bi-person-fill"></i></label>
+                    <input class="form-control" id="username" name="username" placeholder="Username" value={{ 
+                           worker.name }} required>
+                </div>
+            </div>
+            <hr>
+            <div class="input-group input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="email"><i class="bi bi-envelope-fill"></i></label>
+                    <input class="form-control" type="email" id="email" name="email" placeholder="Enter email" value={{worker.email}} required>
+                </div>
+            </div>
+            <hr>
+            <div class="input-group input-group">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="roles">Rollen</label>
+                    <select class="selectpicker" id="roles" multiple data-live-search="true" name="roles">
+                        {% for role in roles %}
+                        <option value={{role.id}} {{
+                        "selected='selected'" if role.selected == True else "" }}>{{role.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <button type="submit" class="btn btn-primary" {% if permissions.update_user == False %}disabled{%endif%}><i class="bi bi-pen"></i>Speichern</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

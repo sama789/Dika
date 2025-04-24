@@ -1,0 +1,6 @@
+Python==3.9.2
+Flask==2.0.3
+SQLAlchemy==1.4.32
+sqlalchemy-orm==1.2.1
+Jinja2==3.0.3
+Flask-SQLAlchemy==2.5.1

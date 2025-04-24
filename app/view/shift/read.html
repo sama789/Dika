@@ -1,0 +1,44 @@
+{% include "base.html"%} {% block main %}
+<div class="container">
+    <div>
+        <h3>Informationen zur Schicht</h3>
+        <div class="card-body">
+		    
+		        
+        
+            <form method="GET" >
+                <br/>
+               
+                        <label class="input-group-text" for="start">Status</label>
+                    <output id="start">{{shift.status.value}}</output>
+                
+                
+                <hr/>
+              
+                        <label class="input-group-text" for="stype" id="shift-type" >Typ</label>
+                        	<output id=""> {{shift.stype.value}}</output>
+                    
+                <hr/>
+              
+             
+                        <label class="input-group-text" for="start">Beginn</label>
+                        <output>{{shift.start}}</output>
+                      
+                   
+                <hr/>
+               
+                        <label class="input-group-text" for="end">Ende</label>
+                       <output id="end">{{shift.end}}</output>
+                   
+                <hr/>
+	               </form>   
+	               <form method="get" action="{{ url_for('shift_list') }}">
+	                <button type="submit" class="btn btn-primary">Kalender</button>
+	             </form>  
+	             
+	            
+          
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% include "base.html"%} {% block main %}
+  <meta charset="utf-8">
+<div class="container">
+
+    
+  
+  <div id="calendar"></div>
+  <p style="float: right"><a href="#" id="icsdownload">iCal-Format herunterladen</a></p> 
+
+  
+<script>
+		let events = []
+		let cal = ics()
+		let button = document.getElementById("icsdownload");
+
+        let calendarEl = document.getElementById("calendar");
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+        	headerToolbar: {
+            	left:'prev,next today',
+            	center:'title',
+        	    right: 'timeGridDay,timeGridWeek,dayGridMonth,listMonth',
+        	  },
+        	locale: 'de-ch',
+        	buttonText:{
+					day:'Tag',
+					month:'Monat' ,
+					week: 'Woche',
+					list: 'Liste',
+					today: 'Heute',
+            	},
+            events: [
+                {% for shift in shifts %}
+                {
+                    title: '{{shift.stype.value}}',
+                    start : '{{shift.start}}',
+                    end : '{{shift.end}}',
+                    url: 'read/{{shift.id}}'
+                },
+                {% endfor %}
+            ]})
+
+        {% for shift in shifts %}
+		events.push({
+            title: '{{shift.stype.value}}',
+            start : '{{shift.start}}',
+            end : '{{shift.end}}',
+            description: '{{shift.status.value}}'
+        })
+        {% endfor %}
+        calendar.render()
+		events.forEach(function(event,i){
+			cal.addEvent(event.title, event.description, '', event.start, event.end);
+			})
+		button.addEventListener("click", function(){
+			cal.download('shifts_export', '.ics');
+			})
+    </script>
+</div>
+ 
+{% endblock %} 
